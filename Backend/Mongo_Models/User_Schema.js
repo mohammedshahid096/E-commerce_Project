@@ -37,6 +37,10 @@ const Schema_model = mongoose.Schema({
     type: String,
     default: "user",
   },
+  wallet: {
+    type: Number,
+    default: 100000,
+  },
   createAt: {
     type: Date,
     default: Date.now,

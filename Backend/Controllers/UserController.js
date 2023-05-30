@@ -3,18 +3,33 @@ import bcrypt from "bcrypt";
 import SetJWT from "../Config/SetJWT.js";
 import cloudinary from "cloudinary";
 
+//  TODO: Register the User
 export const Register = async (req, res) => {
-  const avatar = req.file;
-  // console.log(avatar);
   try {
+    const avatar = req.file;
+    const { name, email, password } = req.body;
+    if (!name || !email || !password || avatar.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "enter the fields",
+      });
+    }
+    const user = await User_Schema.findOne({ email });
+    //if user is empty then it means it not find in db so user is not present
+
+    if (user) {
+      return res.status(400).json({
+        success: "false",
+        message: "user already exist",
+      });
+    }
+    // upload a photo on cloud
     const myCloud = await cloudinary.v2.uploader.upload(avatar.path, {
       folder: "E-Commerce/userProfile",
       width: 150,
       crop: "scale",
     });
-    // console.log("---------");
-    // console.log(myCloud);
-    const { name, email, password } = req.body;
+
     const create_user = new User_Schema({
       name,
       email,
@@ -31,6 +46,7 @@ export const Register = async (req, res) => {
   }
 };
 
+//  TODO : Login User
 export const LoginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -70,7 +86,7 @@ export const LoginUser = async (req, res) => {
   }
 };
 
-//logout option
+//TODO : logout option
 export const Logout = (req, res, next) => {
   try {
     const options = {
@@ -90,7 +106,7 @@ export const Logout = (req, res, next) => {
   }
 };
 
-//get user details
+//TODO : Get user details
 export const GetUserDetails = async (req, res) => {
   const user = await User_Schema.findById(req.user.id);
   return res.status(200).json({
@@ -99,7 +115,7 @@ export const GetUserDetails = async (req, res) => {
   });
 };
 
-//update the data
+// TODO: update the user data
 export const UpadateUser = async (req, res) => {
   try {
     const updateuser = {
@@ -132,7 +148,10 @@ export const UpadateUser = async (req, res) => {
   }
 };
 
-//get all users only for admin
+// ! ======================================
+// !              Admin
+// ! ======================================
+// TODO: get all users only for admin
 export const GetSingleUser = async (req, res) => {
   try {
     const user = await User_Schema.findById(req.params.id);
@@ -154,7 +173,7 @@ export const GetSingleUser = async (req, res) => {
   }
 };
 
-//get all users only for admin
+//TODO : get all users only for admin
 export const GetAllUsers = async (req, res) => {
   try {
     const users = await User_Schema.find();
@@ -170,13 +189,14 @@ export const GetAllUsers = async (req, res) => {
   }
 };
 
-//admin will update the user for role
+//TODO : admin will update the user for role
 export const UpadateUserAdmin = async (req, res) => {
   try {
     const updateuser = {
       email: req.body.email,
       name: req.body.name,
       role: req.body.role,
+      wallet: req.body.wallet,
     };
 
     const user = await User_Schema.findByIdAndUpdate(
@@ -208,7 +228,7 @@ export const UpadateUserAdmin = async (req, res) => {
   }
 };
 
-//admin will delete the user
+// TODO : admin will delete the user
 export const DeleteUserAdmin = async (req, res) => {
   try {
     const user = await User_Schema.findById(req.params.id);
@@ -232,12 +252,4 @@ export const DeleteUserAdmin = async (req, res) => {
       message: error.message,
     });
   }
-};
-
-export const TempUser = async (req, res) => {
-  const user = await User_Schema.findById("63b91fb401187432908ad893");
-  return res.status(200).json({
-    success: true,
-    user,
-  });
 };

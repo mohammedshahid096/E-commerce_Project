@@ -1,5 +1,6 @@
-//to generate jwt token
 import jwt from "jsonwebtoken";
+
+// TODO :to generate jwt token
 export function getJWTToken(id) {
   let payload = {
     user: { id },

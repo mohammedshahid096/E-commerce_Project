@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import User_Schema from "../Mongo_Models/User_Schema.js";
 
-//wether a user is login or not
+//TODO: wether a user is login or not
 const IsAuthenticated = async (req, res, next) => {
   const { Etoken } = req.cookies;
 
@@ -20,7 +20,7 @@ const IsAuthenticated = async (req, res, next) => {
 
 // ---------------------------------------------------------------
 
-//only Admins role can access this rescources
+// TODO : only Admins role can access this rescources
 export const AurthorizeRole = (req, res, next) => {
   const roles = ["admin"];
   if (!roles.includes(req.user.role)) {

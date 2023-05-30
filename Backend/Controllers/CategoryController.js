@@ -1,6 +1,6 @@
 import Category_Schema from "../Mongo_Models/CategorySchema.js";
 
-//TODO: adding the new category
+//TODO : adding the new category
 export const AddCategory = async (req, res) => {
   try {
     const { category } = req.body;

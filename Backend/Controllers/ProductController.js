@@ -1,7 +1,7 @@
 import Product_Schema from "../Mongo_Models/Product_Schema.js";
 import cloudinary from "cloudinary";
 
-//request for getting all the products
+//TODO : request for getting all the products
 //and for parameters search also
 //filter search pagination limit
 export const getAllProducts = async (req, res) => {
@@ -63,10 +63,26 @@ export const getAllProducts = async (req, res) => {
   }
 };
 
-// for featuring products
+// TODO : for featuring products
 export const FeatureProducts = async (req, res) => {
   try {
-    const products = await Product_Schema.find().limit(7);
+    const Allproducts = await Product_Schema.find();
+
+    function myRandomInts(quantity, max) {
+      const arr = [];
+      while (arr.length < quantity) {
+        var candidateInt = Math.floor(Math.random() * max) + 1;
+        if (arr.indexOf(candidateInt) === -1) arr.push(candidateInt);
+      }
+      return arr;
+    }
+
+    const radomValues = myRandomInts(7, Allproducts.length - 1);
+    let products = [];
+    radomValues.forEach((item) => {
+      products.push(Allproducts[item]);
+    });
+
     res.status(200).json({
       success: true,
       products,
@@ -78,7 +94,11 @@ export const FeatureProducts = async (req, res) => {
     });
   }
 };
-//request for  posting(adding) the new porduct
+
+// ! ======================================
+// !              Admin
+// ! ======================================
+// TODO : Request for  posting(adding) the new porduct
 export const createProduct = async (req, res) => {
   try {
     const Productimages = req.files;
@@ -111,7 +131,7 @@ export const createProduct = async (req, res) => {
   }
 };
 
-//reques for put(updating) the existed product
+// TODO :Request for put(updating) the existed product
 export const updateProduct = async (req, res) => {
   const u_data = req.body;
   try {
@@ -144,7 +164,7 @@ export const updateProduct = async (req, res) => {
   }
 };
 
-//request for delete  the product
+// TODO : Request for delete  the product
 export const deleteProduct = async (req, res) => {
   try {
     const exist = await Product_Schema.findById(req.params.id);
@@ -173,7 +193,7 @@ export const deleteProduct = async (req, res) => {
   }
 };
 
-//request for single product details
+// TODO request for single product details
 export const getSingleProduct = async (req, res) => {
   try {
     const exist = await Product_Schema.findById(req.params.id);
@@ -197,7 +217,7 @@ export const getSingleProduct = async (req, res) => {
   }
 };
 
-//for reviews update
+//TODO : For reviews update
 export const createProductReview = async (req, res) => {
   try {
     const { rating, comment, productId } = req.body;
@@ -242,7 +262,7 @@ export const createProductReview = async (req, res) => {
   }
 };
 
-// get all reviews of a single product
+// TODO : Get all reviews of a single product
 export const getProductReviews = async (req, res) => {
   try {
     const product = await Product_Schema.findById(req.query.productid);
@@ -266,7 +286,7 @@ export const getProductReviews = async (req, res) => {
   }
 };
 
-// delete the reviews only by admin
+// TODO : Delete the reviews only by admin
 export const DeleteProductReview = async (req, res) => {
   try {
     const product = await Product_Schema.findById(req.query.productid);
@@ -320,7 +340,7 @@ export const DeleteProductReview = async (req, res) => {
   }
 };
 
-//request for all product details
+// TODO : Request for all product details
 export const GetAllProductsAdmin = async (req, res) => {
   try {
     const products = await Product_Schema.find();

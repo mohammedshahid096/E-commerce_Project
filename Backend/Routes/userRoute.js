@@ -11,7 +11,6 @@ import {
   GetSingleUser,
   UpadateUserAdmin,
   DeleteUserAdmin,
-  // TempUser,
 } from "../Controllers/UserController.js";
 
 const user_route = express.Router();
@@ -21,7 +20,6 @@ user_route.route("/login").post(LoginUser);
 user_route.route("/logout").get(Logout);
 
 user_route.route("/me").get(IsAuthenticated, GetUserDetails);
-// user_route.route("/me").get(TempUser);
 user_route.route("/me/update").put(IsAuthenticated, singlUpload, UpadateUser);
 
 //admin routes
@@ -33,9 +31,5 @@ user_route
   .get(IsAuthenticated, AurthorizeRole, GetSingleUser)
   .put(IsAuthenticated, AurthorizeRole, UpadateUserAdmin)
   .delete(IsAuthenticated, AurthorizeRole, DeleteUserAdmin);
-
-user_route.route("/check/temp").get((req, res) => {
-  res.cookie("shahd", "somethigncokkie").send("successfully set");
-});
 
 export default user_route;

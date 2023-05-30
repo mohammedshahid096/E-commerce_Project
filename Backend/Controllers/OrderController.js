@@ -2,7 +2,7 @@ import orderSchema from "../Mongo_Models/OrderSchema.js";
 import User_Schema from "../Mongo_Models/User_Schema.js";
 import Product_Schema from "../Mongo_Models/Product_Schema.js";
 
-//creating a new order
+// TODO : creating a new order
 export const newOrder = async (req, res) => {
   try {
     const {
@@ -14,6 +14,16 @@ export const newOrder = async (req, res) => {
       shippingPrice,
       totalPrice,
     } = req.body;
+
+    const user = await User_Schema.findById(req.user._id);
+    if (req.body.wallet === true) {
+      let orderAmount = user.wallet;
+      orderAmount = orderAmount - totalPrice;
+      req.body.wallet = orderAmount;
+    } else {
+      req.body.wallet = user.wallet;
+    }
+
     const order = await orderSchema.create({
       shippingInfo,
       orderItems,
@@ -26,6 +36,9 @@ export const newOrder = async (req, res) => {
       paidAt: Date.now(),
       user: req.user._id,
     });
+    user.wallet = req.body.wallet.toFixed(2);
+    await user.save();
+
     res.status(201).json({
       sucess: true,
       order,
@@ -38,7 +51,7 @@ export const newOrder = async (req, res) => {
   }
 };
 
-// getting all my orders those who are logged in
+// TODO : getting all my orders those who are logged in
 export const AllMyOrdersLogin = async (req, res) => {
   try {
     const orders = await orderSchema
@@ -56,7 +69,7 @@ export const AllMyOrdersLogin = async (req, res) => {
   }
 };
 
-// getting a single orders
+// TODO : getting a single orders by user
 export const getSingleOrder = async (req, res) => {
   try {
     const order = await orderSchema
@@ -81,12 +94,15 @@ export const getSingleOrder = async (req, res) => {
   }
 };
 
-// all orders for admin
+// ! ======================================
+// !               Admin
+// ! ======================================
+
+// TODO : All orders for admin
 export const getAllOrder_Admin = async (req, res) => {
   let totalAmount = 0;
   try {
     const orders = await orderSchema.find();
-    // console.log(orders);
     orders.forEach((item) => {
       totalAmount += item.totalPrice;
     });
@@ -104,16 +120,15 @@ export const getAllOrder_Admin = async (req, res) => {
   }
 };
 
-//function for update stocks
+// TODO : Function for update stocks
 async function updateStock(productID, quantity) {
   const product = await Product_Schema.findById(productID);
 
   product.stock -= quantity;
-  // console.log(product.stock);
   await product.save({ validateBeforeSave: false });
 }
 
-// update status order --- Admin
+// TODO : update status order --- Admin
 export const updateOrderStatus = async (req, res) => {
   try {
     const order = await orderSchema.findById(req.params.orderid);
@@ -140,6 +155,7 @@ export const updateOrderStatus = async (req, res) => {
 
     order.orderStatus = req.body.status;
     if (req.body.status === "Delivered") {
+      order.paymentInfo.status = "succeed";
       order.deliveredAt = Date.now();
     }
 
@@ -156,6 +172,7 @@ export const updateOrderStatus = async (req, res) => {
   }
 };
 
+// TODO : Deleting a order by admin
 export const deleteOrders = async (req, res) => {
   const order = await orderSchema.findById(req.params.orderid);
   if (!order) {

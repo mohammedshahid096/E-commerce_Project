@@ -1,11 +1,9 @@
 import mongoose from "mongoose";
 
+// TODO : Database connection
 const DataBaseCon = () => {
   mongoose
-    .connect(process.env.DBCONNECTION_URI_ONLINE, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
+    .connect(process.env.DBCONNECTION_URI_ONLINE)
     .then(() => {
       console.log("Data Base is Connceted to MongoDB");
     })
