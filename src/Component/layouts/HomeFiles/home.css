@@ -1,0 +1,120 @@
+* {
+    font-family: "Poppins";
+    padding: 0;
+    margin: 0;
+}
+
+.pamplet {
+
+    position: relative;
+    width: 100%;
+    height: 92vmin;
+    background-image: url("https://images.unsplash.com/photo-1605086998852-18371cfd9b2e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fGVjb21tZXJjZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60"), linear-gradient(to right, #FDB99B, #CF8BF3, #A770EF);
+    background-position: right;
+    /* background-repeat: no-repeat; */
+    background-position-y: top;
+    text-align: center;
+    background-blend-mode: soft-light;
+    opacity: 0.8;
+    user-select: none;
+
+}
+
+.custom-shape-divider-bottom-1676311021 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1676311021 svg {
+    position: relative;
+    display: block;
+    width: calc(130% + 2px);
+    height: 207px;
+}
+
+.custom-shape-divider-bottom-1676311021 .shape-fill {
+    fill: #FFFFFF;
+}
+
+.tags {
+    transform: translateY(40px);
+}
+
+.tags h1 {
+    background-color: #8b00460f;
+    font-family: 'Chilanka';
+    color: #8b007c47;
+    text-shadow: 5px 3px 4px #ba7ab629;
+    font-size: 48px;
+    mix-blend-mode: screen;
+    border-radius: 30px;
+    padding-top: 5px;
+}
+
+.tags p {
+    color: #9218b0;
+    font-size: x-large;
+    font-weight: bolder;
+    font-family: emoji;
+    margin-bottom: 7px;
+    transition: all 1s;
+}
+
+.tags p:hover {
+    word-spacing: 5px;
+    letter-spacing: 5px;
+    transform: rotateY(50deg);
+    perspective: 5px;
+    transform: scale3d(14px);
+    cursor: pointer;
+}
+
+.productFeature_heading {
+    text-align: center;
+    font-weight: 500;
+    border-bottom: 1.2px solid rgba(41, 39, 39, 0.372);
+    width: 15em;
+    margin: 3px auto;
+    padding-bottom: 5px;
+    font-family: "Roboto";
+}
+
+.productfeatureslist {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 3px;
+}
+
+/* TODO ---------------------------media queries ----------------- */
+@media screen and (max-width:600px) {
+    .pamplet {
+        height: 100vmax;
+    }
+
+    .custom-shape-divider-bottom-1676311021 svg {
+        width: calc(146% + 1.3px);
+        height: 227px;
+    }
+
+    .tags h1,
+    .tags p {
+        line-break: auto;
+
+    }
+
+    .tags h1 {
+        font-size: 30px;
+    }
+
+    .productFeature_heading {
+        width: 70%;
+    }
+
+
+}
