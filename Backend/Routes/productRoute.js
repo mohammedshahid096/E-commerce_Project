@@ -60,11 +60,8 @@ Product.route("/admin/category/add").post(
   AurthorizeRole,
   AddCategory
 );
-Product.route("/admin/category/all").get(
-  IsAuthenticated,
-  AurthorizeRole,
-  GetCategory
-);
+Product.route("/admin/category/all").get(GetCategory);
+
 Product.route("/admin/category/:categoryID").delete(
   IsAuthenticated,
   AurthorizeRole,
