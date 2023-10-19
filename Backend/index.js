@@ -7,10 +7,13 @@ import cookieParser from "cookie-parser";
 import orderrouter from "./Routes/orderRoute.js";
 import cors from "cors";
 import cloudinary from "cloudinary";
+import path from "path";
 
 //express to start using express module through app
 const app = express();
+const __dirname = path.resolve();
 
+app.use(express.static(path.join(__dirname, "build")));
 //to accept body in the form of json
 app.use(express.json());
 
@@ -39,6 +42,10 @@ app.use(
 app.use("/ecommerceAPI/", Product);
 app.use("/ecommerceAPI/users", user_route);
 app.use("/ecommerceAPI/order", orderrouter);
+
+app.use("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 //app will start on the given port
 app.listen(process.env.PORT, () => {
